@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap');
 
 body {
+    max-width: 614px;
     font-family: 'Roboto', sans-serif;
     background-color: rgb(243, 243, 243);
 }
 
 .top {
-    width: 100vw;
+    width: 100%;
+    max-width: 614px;
     height: 80px;
     background-color: white;
     display: flex;
@@ -15,12 +17,19 @@ body {
     padding: 20px;
     box-sizing: border-box;
     box-shadow: 0 4 6 0 rgba(0, 0, 0, 0.05);
-    margin-bottom: 26px;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .users {
     width: 42.19px;
     height: 30.94px;
+}
+
+ul {
+    width: 100%;
+    margin: 102px 0 80px;
 }
 
 li {
@@ -46,4 +55,30 @@ li {
 
 span {
     color: rgba(170, 170, 170, 1);
+}
+
+.typing-box {
+    width: 100%;
+    max-width: 614px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 18px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+input {
+    border: 0;
+    padding-left: 17px;
+    font-style: italic;
+}
+
+.send {
+    width: 26px;
+    height: 26px;
 }
