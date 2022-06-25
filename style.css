@@ -2,8 +2,10 @@
 
 body {
     max-width: 614px;
+    height: 100vw;
     font-family: 'Roboto', sans-serif;
     background-color: rgb(243, 243, 243);
+    font-size: 18px;
 }
 
 .top {
@@ -72,16 +74,15 @@ span {
     left: 0;
 }
 
-input {
+.typing-box input {
     width: calc(100% - 60px);
     height: 80px;
     border: 0;
-    font-size: 18px;
     padding-left: 17px;
     font-style: italic;
 }
 
-input::placeholder {
+.typing-box input::placeholder {
     color: black;
 }
 
@@ -92,4 +93,34 @@ input:focus {
 .send {
     width: 26px;
     height: 26px;
+}
+
+.entry-screen {
+    width: 100%;
+    max-width: 614px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40.79%;
+    box-sizing: border-box;
+}
+
+.entry-screen input {
+    width: 261px;
+    height: 54px;
+    border: 0;
+    margin: 24.09% 0 15px;
+    text-align: center;
+}
+
+.entry-screen button {
+    width: 109px;
+    height: 45px;
+    border-radius: 9px;
+    border: 0;
+    color: rgba(105, 105, 105, 1);
+}
+
+.hidden {
+    display: none;
 }
