@@ -31,6 +31,9 @@ function renderMessages(messages){
             ul.innerHTML += resevedMessageTemplate(message);
         }
     }
+    const shownMessages = document.querySelectorAll('li');
+    const lastMessage = shownMessages[shownMessages.length-1]
+    lastMessage.scrollIntoView(); 
 }
 
 
