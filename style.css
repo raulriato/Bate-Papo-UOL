@@ -31,7 +31,10 @@ body {
 
 ul {
     width: 100%;
+    height: calc(100% - 160px);
+    overflow-y: auto;
     margin: 102px 0 80px;
+    box-sizing: border-box;
 }
 
 li {
@@ -41,6 +44,10 @@ li {
     font-size: 14px;
     display: flex;
     align-items: center;
+}
+
+li:last-child {
+    margin-bottom: 80px;
 }
 
 .joined {
