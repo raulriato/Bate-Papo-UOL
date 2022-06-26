@@ -5,12 +5,14 @@ function requestMessages(){
     promise.then(getMessages);
 }
 
+setInterval(requestMessages, 3000)
+
 function getMessages(response){
     messages = response.data;
     renderMessages(messages);
 }
 
-let joinedMessageTemplate = (message) => `<li class="joined"><p><span>${message.time}</span> <strong>${message.from}</strong> ${message.text}</p></li>`
+let statusMessageTemplate = (message) => `<li class="joined"><p><span>${message.time}</span> <strong>${message.from}</strong> ${message.text}</p></li>`
 
 let toAlldMessageTemplate = (message) => `<li class="to-all"><p><span>${message.time}</span> <strong>${message.from}</strong> para <strong>${message.to}:</strong> ${message.text}</p></li>`
 
@@ -21,8 +23,8 @@ function renderMessages(messages){
     ul.innerHTML = '';
     for(let i = 0; i < messages.length; i++){
         const message = messages[i]
-        if(message.text.toLowerCase() === 'entra na sala...'){
-            ul.innerHTML += joinedMessageTemplate(message);
+        if(message.text.toLowerCase() === 'entra na sala...' || message.text.toLowerCase() === 'sai da sala...' ){
+            ul.innerHTML += statusMessageTemplate(message);
         } else if(message.to.toLowerCase() === 'todos'){
             ul.innerHTML += toAlldMessageTemplate(message);
         } else if(message.type.toLowerCase() === 'private_message'){
@@ -42,10 +44,12 @@ function enterRoom(){
         name: name
     }
     const promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', user)
-    promise.then(response => {
-        setInterval(requestMessages, 3000)
-    })
-    promise.catch(alertOnlineUser)
+    promise.then(requestMessages);
+    promise.catch(alertOnlineUser);
+
+    setInterval(() => {
+        axios.post('https://mock-api.driven.com.br/api/v6/uol/status', user);
+    }, 5000);
 }
 
 function alertOnlineUser(response){
