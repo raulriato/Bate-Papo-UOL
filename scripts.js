@@ -1,4 +1,5 @@
 let messages = [];
+let userName;
 
 function requestMessages(){
     const promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
@@ -20,6 +21,7 @@ let resevedMessageTemplate = (message) => `<li class="reserved"><p><span>${messa
 
 function renderMessages(messages){
     let ul = document.querySelector('ul');
+    userName = document.querySelector('.entry-screen input').value;
     ul.innerHTML = '';
     for(let i = 0; i < messages.length; i++){
         const message = messages[i]
@@ -28,7 +30,9 @@ function renderMessages(messages){
         } else if(message.to.toLowerCase() === 'todos'){
             ul.innerHTML += toAlldMessageTemplate(message);
         } else if(message.type.toLowerCase() === 'private_message'){
-            ul.innerHTML += resevedMessageTemplate(message);
+            if(message.to.toLowerCase() === userName.toLowerCase()){
+                ul.innerHTML += resevedMessageTemplate(message);
+            }
         }
     }
     const shownMessages = document.querySelectorAll('li');
@@ -36,26 +40,27 @@ function renderMessages(messages){
     lastMessage.scrollIntoView(); 
 }
 
+let idIntervalStatus = 0;
 
 function enterRoom(){
     let chatRoom = document.querySelector('.texts-screen');
     chatRoom.classList.remove('hidden');
     let entryScreen = document.querySelector('.entry-screen');
     entryScreen.classList.add('hidden');
-    const name = document.querySelector('.entry-screen input').value;
+    userName = document.querySelector('.entry-screen input').value;
     const user = {
-        name: name
+        name: userName
     }
     const promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', user)
     promise.then(requestMessages);
     promise.catch(alertOnlineUser);
 
-    setInterval(() => {
+    idIntervalStatus = setInterval(() => {
         axios.post('https://mock-api.driven.com.br/api/v6/uol/status', user);
     }, 5000);
 }
 
-function alertOnlineUser(response){
+function alertOnlineUser(){
     alert('Já existe um usuário conectado com esse nome')
     goHome();
 }
@@ -64,4 +69,21 @@ function goHome(){
     chatRoom.classList.add('hidden');
     let entryScreen = document.querySelector('.entry-screen');
     entryScreen.classList.remove('hidden');
+    clearInterval(idIntervalStatus);
+}
+
+function sendMessage(){
+    const text = document.querySelector('.typing-box input').value;
+    const message = {
+        from: userName,
+        to: 'Todos',
+        text: text,
+        type: 'message'
+    }
+    const promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+    promise.then(requestMessages);
+    promise.catch(() => {
+        window.location.reload();
+    });
+    document.querySelector('.typing-box input').value = '';
 }
